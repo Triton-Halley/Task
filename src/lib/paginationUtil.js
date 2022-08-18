@@ -1,5 +1,9 @@
 function NumberOfPages(arr) {
-  const div = Math.round(arr.length / 9);
+  let div = Math.round(arr.length / 9);
+  if (arr.length > 0 && arr.length < 9) {
+    return 1;
+  }
+  console.log(arr.length);
   return div;
 }
 
