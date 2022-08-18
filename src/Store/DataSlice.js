@@ -9,7 +9,15 @@ const DataSlice = createSlice({
     searchResult: null,
   },
   reducers: {
-    editItem(state, action) {},
+    editItem(state, action) {
+      const { id, title, desc } = action.payload;
+      state.data.forEach((val) => {
+        if (val.id === id) {
+          val.title = title;
+          val.body = desc;
+        }
+      });
+    },
     fetchItem(state, action) {
       state.data = action.payload;
       console.log(state.data);
