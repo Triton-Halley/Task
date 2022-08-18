@@ -1,11 +1,19 @@
 import { useSelector, useDispatch } from "react-redux";
 import { DisplayGridItemsAction } from "../Store/DisplayGirdItemsSlice";
-import { cutData } from "../lib/paginationUtil";
+import NumberOfPages, { cutData } from "../lib/paginationUtil";
 function Pagination() {
   const dispatch = useDispatch();
-  const pages = useSelector((state) => state.gridView.pages);
+  let pages = useSelector((state) => state.gridView.pages);
   const currentPage = useSelector((state) => state.gridView.currentPage);
-  const AllPosts = useSelector((state) => state.data.data);
+  let AllPosts = useSelector((state) => state.data.data);
+  const isFilter = useSelector((state) => state.data.isFilter);
+  const FilteredArr = useSelector((state) => state.data.FilteredArray);
+
+  if (isFilter) {
+    console.log("Filteree");
+    AllPosts = FilteredArr;
+    pages = NumberOfPages(AllPosts);
+  }
 
   const numbers = [];
 
