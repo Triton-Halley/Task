@@ -6,7 +6,7 @@ function GridList() {
   console.log("fetched data", fetchedData);
   return (
     <>
-      <div className="grid grid-cols-3 justify-center gap-4 m-auto lg:w-2/3 ">
+      <div className="grid lg:grid-cols-2  xl:grid-cols-3  md:grid-cols-1  md:w-full items-center justify-center gap-4 m-auto lg:w-2/3 ">
         {fetchedData.map((item) => {
           return (
             <GridItem
