@@ -7,6 +7,7 @@ import { useDispatch } from "react-redux";
 import { DataSliceAction } from "./Store/DataSlice";
 import { DisplayGridItemsAction } from "./Store/DisplayGirdItemsSlice";
 import NumberOfPages from "./lib/paginationUtil";
+import Overlay from "./Components/Overlay";
 function App() {
   console.log("dvision :", (5 * 9) % 100);
 
@@ -27,6 +28,7 @@ function App() {
 
   return (
     <>
+      <Overlay />
       <Routes>
         <Route path="/" element={<Main />} />
         <Route path="/login" element={<Login />} />
