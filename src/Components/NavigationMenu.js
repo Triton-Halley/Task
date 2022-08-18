@@ -1,4 +1,7 @@
+import { useSelector } from "react-redux";
+
 function NavigationMenu() {
+  const searchResult = useSelector((state) => state.data.searchResult);
   return (
     <>
       <nav
@@ -18,10 +21,7 @@ function NavigationMenu() {
   "
       >
         <div className="container-fluid w-full flex flex-wrap items-center justify-between px-6">
-          <div
-            className="flex flex-grow items-center"
-            id="navbarSupportedContent"
-          >
+          <div className="flex items-center" id="navbarSupportedContent">
             <ul className="navbar-nav flex pl-0 list-style-none mr-auto">
               <li className="nav-item p-2">
                 <a
@@ -41,7 +41,11 @@ function NavigationMenu() {
               </li>
             </ul>
           </div>
-
+          {searchResult && (
+            <div className="flex items-center justify-center text-lg ">
+              Search Result : {searchResult}
+            </div>
+          )}
           <div className="flex items-center relative">
             <div className="flex items-center space-x-2">
               <img
