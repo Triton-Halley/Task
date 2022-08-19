@@ -1,7 +1,14 @@
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
+import { NavLink } from "react-router-dom";
+import { AuthenticationAction } from "../Store/AuthenticationSlice";
 
 function NavigationMenu() {
+  const dispatch = useDispatch();
+  const logoutHandler = () => {
+    dispatch(AuthenticationAction.Logout());
+  };
   const searchResult = useSelector((state) => state.data.searchResult);
+  const Account = useSelector((state) => state.auth.username);
   return (
     <>
       <nav
@@ -24,20 +31,24 @@ function NavigationMenu() {
           <div className="flex items-center" id="navbarSupportedContent">
             <ul className="navbar-nav flex pl-0 list-style-none mr-auto">
               <li className="nav-item p-2">
-                <a
-                  className="nav-link text-gray-500 hover:text-gray-700 focus:text-gray-700 p-0"
-                  href="/#"
+                <NavLink
+                  className={(navData) =>
+                    navData.isActive
+                      ? " text-white hover:text-gray-700 focus:text-gray-700 p-2 rounded active:bg-blue-500"
+                      : " text-gray-500 hover:text-gray-700 focus:text-gray-700 p-0"
+                  }
+                  to={"/"}
                 >
                   Home
-                </a>
+                </NavLink>
               </li>
               <li className="nav-item p-2">
-                <a
-                  className="nav-link text-gray-500 hover:text-gray-700 focus:text-gray-700 p-0"
-                  href="/#"
+                <span
+                  className="cursor-pointer text-gray-500 hover:text-gray-700 focus:text-gray-700 p-0"
+                  onClick={logoutHandler}
                 >
-                  Login
-                </a>
+                  Logout
+                </span>
               </li>
             </ul>
           </div>
@@ -53,7 +64,7 @@ function NavigationMenu() {
                 src="https://mdbootstrap.com/img/new/avatars/2.jpg"
                 alt="avatar"
               />
-              <strong>Ali Geshani</strong>
+              <strong>{Account}</strong>
             </div>
           </div>
         </div>

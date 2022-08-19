@@ -1,5 +1,11 @@
 import React, { useRef } from "react";
+import { useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import { AuthenticationAction } from "../Store/AuthenticationSlice";
+
 function SignIn() {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
   const usernameInputRef = useRef();
   const passwordInputRef = useRef();
   const formSubmitHandler = (e) => {
@@ -13,7 +19,8 @@ function SignIn() {
       // display error
       return;
     }
-    // redirect to home page and add Authentication to Redux state
+    dispatch(AuthenticationAction.Auth({ username: usernameEntered }));
+    navigate("/", { replace: true });
   };
 
   return (
@@ -28,7 +35,7 @@ function SignIn() {
                 alt="login Illus"
               />
             </div>
-            <div classNameName="md:w-8/12 lg:w-5/12 lg:ml-20">
+            <div className="md:w-8/12 lg:w-5/12 lg:ml-20">
               <div className="flex items-center justify-center mb-4">
                 <h1 className="font-bold text-lg">Sign In</h1>
               </div>
