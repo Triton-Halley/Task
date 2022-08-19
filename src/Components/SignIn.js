@@ -1,4 +1,4 @@
-import React, { useRef } from "react";
+import React, { useRef, useState } from "react";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { AuthenticationAction } from "../Store/AuthenticationSlice";
@@ -8,19 +8,22 @@ function SignIn() {
   const navigate = useNavigate();
   const usernameInputRef = useRef();
   const passwordInputRef = useRef();
+  const [hasError, setHasError] = useState(false);
   const formSubmitHandler = (e) => {
     e.preventDefault();
     const usernameEntered = usernameInputRef.current.value;
     const passwordEntered = passwordInputRef.current.value;
     if (
-      !usernameEntered.trim().length > 0 &&
-      !passwordEntered.trim().length > 8
+      !(usernameEntered.trim().length > 0) &&
+      !(passwordEntered.trim().length > 8)
     ) {
-      // display error
+      setHasError(true);
       return;
+    } else {
+      setHasError(false);
+      dispatch(AuthenticationAction.Auth({ username: usernameEntered }));
+      navigate("/", { replace: true });
     }
-    dispatch(AuthenticationAction.Auth({ username: usernameEntered }));
-    navigate("/", { replace: true });
   };
 
   return (
@@ -57,7 +60,11 @@ function SignIn() {
                     placeholder="Password"
                   />
                 </div>
-
+                {hasError && (
+                  <span className="text-red-500 text-x text-center">
+                    username or password invalid
+                  </span>
+                )}
                 <button
                   type="submit"
                   className="inline-block px-7 py-3 bg-blue-600 text-white font-medium text-sm leading-snug uppercase rounded shadow-md hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg transition duration-150 ease-in-out w-full"
