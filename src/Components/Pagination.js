@@ -1,6 +1,7 @@
 import { useSelector, useDispatch } from "react-redux";
 import { DisplayGridItemsAction } from "../Store/DisplayGirdItemsSlice";
 import NumberOfPages, { cutData } from "../lib/paginationUtil";
+
 function Pagination() {
   const dispatch = useDispatch();
   let pages = useSelector((state) => state.gridView.pages);

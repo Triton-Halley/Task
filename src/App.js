@@ -9,8 +9,6 @@ import { DisplayGridItemsAction } from "./Store/DisplayGirdItemsSlice";
 import NumberOfPages from "./lib/paginationUtil";
 import Overlay from "./Components/Overlay";
 function App() {
-  console.log("dvision :", (5 * 9) % 100);
-
   const dispatch = useDispatch();
   useEffect(() => {
     async function fetchData() {
@@ -25,7 +23,6 @@ function App() {
     }
     fetchData();
   }, []);
-
   return (
     <>
       <Overlay />

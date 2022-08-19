@@ -11,6 +11,7 @@ const DataSlice = createSlice({
   reducers: {
     editItem(state, action) {
       const { id, title, desc } = action.payload;
+
       state.data.forEach((val) => {
         if (val.id === id) {
           val.title = title;
