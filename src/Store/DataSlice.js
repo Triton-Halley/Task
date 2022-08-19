@@ -28,6 +28,10 @@ const DataSlice = createSlice({
       state.FilteredArray = action.payload.filter;
       state.searchResult = action.payload.filter.length;
     },
+    clearFilter(state) {
+      state.isFilter = false;
+      state.searchResult = null;
+    },
   },
 });
 

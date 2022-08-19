@@ -1,16 +1,18 @@
 import { useRef } from "react";
 import { useSelector, useDispatch } from "react-redux";
+import { cutData } from "../lib/paginationUtil";
 import { DataSliceAction } from "../Store/DataSlice";
 import { DisplayGridItemsAction } from "../Store/DisplayGirdItemsSlice";
 
 function Search() {
   const dispatch = useDispatch();
   const AllPosts = useSelector((state) => state.data.data);
+  const isFiltered = useSelector((state) => state.data.isFilter);
   const searchInputRef = useRef();
   const searchHandler = () => {
     const searchEntered = searchInputRef.current.value;
 
-    if (searchEntered.trim().length < 0) {
+    if (!(searchEntered.trim().length > 0)) {
       return;
     }
 
@@ -23,6 +25,11 @@ function Search() {
     dispatch(DataSliceAction.filtering({ filter: filtered }));
     const cutData = filtered.slice(0, 9);
     dispatch(DisplayGridItemsAction.updateGridView({ data: cutData }));
+  };
+  const ClearSearchHandler = () => {
+    const cut = cutData(0, 9, AllPosts);
+    dispatch(DataSliceAction.clearFilter());
+    dispatch(DisplayGridItemsAction.updateGridView({ data: cut }));
   };
   return (
     <>
@@ -37,7 +44,7 @@ function Search() {
             />
             <button
               onClick={searchHandler}
-              className="btn inline-block px-6 py-2.5 bg-blue-600 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700  focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg transition duration-150 ease-in-out flex items-center"
+              className="btn inline-block px-6 py-2.5 bg-blue-600 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700  focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg transition duration-150 ease-in-out "
               type="button"
               id="button-addon2"
             >
@@ -57,6 +64,14 @@ function Search() {
                 ></path>
               </svg>
             </button>
+            {isFiltered && (
+              <button
+                onClick={ClearSearchHandler}
+                className="bg-cyan-500 text-white rounded px-6 py-2.5 hover:bg-cyan-600 transition duration-150 ease-in-out"
+              >
+                Clear
+              </button>
+            )}
           </div>
         </div>
       </div>
