@@ -1,22 +1,48 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
+import { DisplayGridItemsAction } from "../Store/DisplayGirdItemsSlice";
 import { DataSliceAction } from "../Store/DataSlice";
 import { ModalAction } from "../Store/ModalSlice";
 function EditModal() {
   const modalStatus = useSelector((state) => state.modal.isOpen);
   const { title, id, desc } = useSelector((state) => state.modal.currentData);
+  const allPosts = useSelector((state) => state.data.data);
   const dispatch = useDispatch();
+  console.log(title, desc);
   const [titleInput, setTitleInput] = useState(title);
+  const [descInput, setDescInput] = useState(desc);
+
+  console.log(titleInput, descInput);
+
+  useEffect(() => {
+    if (title && desc) {
+      console.log("im here");
+      setTitleInput(title);
+      setDescInput(desc);
+    }
+  }, []);
   const saveChangesHandler = () => {
-    dispatch(DataSliceAction.editItem({ titleInput, id, desc }));
+    console.log("save changes: ", titleInput, descInput);
+    updateView({ title: titleInput, id, desc: descInput });
+    dispatch(
+      DataSliceAction.editItem({ title: titleInput, id, desc: descInput })
+    );
     dispatch(ModalAction.closeModal());
   };
   const closeModalHandler = () => {
     dispatch(ModalAction.closeModal());
   };
-  const InputOnchangeHandler = (e) => {
+  const TitleOnchangeHandler = (e) => {
     const data = e.target.value;
+    console.log("State : ", data);
     setTitleInput(data);
+  };
+  const TextAreaOnchangeHandler = (e) => {
+    const data = e.target.value;
+    setDescInput(data);
+  };
+  const updateView = ({ title, id, desc }) => {
+    dispatch(DisplayGridItemsAction.updateSingleItem({ title, id, desc }));
   };
   return (
     <>
@@ -30,16 +56,17 @@ function EditModal() {
                 className="form-control block w-full px-4 py-2 text-xl font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
                 placeholder="Title"
                 value={titleInput}
-                onChange={InputOnchangeHandler}
+                onChange={TitleOnchangeHandler}
               />
             </div>
 
             <textarea
               id="message"
               rows="4"
-              class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded border border-gray-300 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none dark:bg-gray-700  dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+              className="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded border border-gray-300 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none dark:bg-gray-700  dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
               placeholder="Description"
-              value={desc}
+              value={descInput}
+              onChange={TextAreaOnchangeHandler}
             ></textarea>
 
             <div className="modal-footer flex flex-shrink-0 flex-wrap items-center justify-end p-4 border-t border-gray-200 rounded-b-md">

@@ -3,8 +3,8 @@ import { ModalAction } from "../../Store/ModalSlice";
 function GridItem({ title, id, desc }) {
   const dispatch = useDispatch();
   const openEditModal = () => {
-    dispatch(ModalAction.openModal());
     dispatch(ModalAction.setData({ title, desc, id }));
+    dispatch(ModalAction.openModal());
   };
   return (
     <>
