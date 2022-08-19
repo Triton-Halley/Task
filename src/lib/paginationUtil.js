@@ -13,3 +13,7 @@ export function cutData(start, end, arr) {
   console.log("cut data func : ", start, end, arr);
   return arr.slice(start, end);
 }
+
+export function findPosition(number) {
+  return (number * 9) % 100;
+}
