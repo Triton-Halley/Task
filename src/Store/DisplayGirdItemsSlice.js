@@ -8,6 +8,15 @@ const DisplayGridItemsSlice = createSlice({
       console.log(action.payload.data);
       state.gridListItems = action.payload.data;
     },
+    updateSingleItem(state, action) {
+      const { title, id, desc } = action.payload;
+      state.gridListItems.forEach((item) => {
+        if (item.id === id) {
+          item.title = title;
+          item.body = desc;
+        }
+      });
+    },
     setPages(state, action) {
       state.pages = action.payload.pages;
     },
